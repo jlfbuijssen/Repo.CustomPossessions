@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <AssemblyName>AltCtrler.CustomPossessions</AssemblyName>
+    <AssemblyName>AltCtrler.dev.plugins.CustomPossessions</AssemblyName>
     <Product>Alt's Custom Possesions</Product>
     <Version>0.0.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -12,7 +12,7 @@
       https://nuget.bepinex.dev/v3/index.json;
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
-    <RootNamespace>alt.dev.plugins.CustomPosessions</RootNamespace>
+    <RootNamespace>AltCtrler.CustomPosessions</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
