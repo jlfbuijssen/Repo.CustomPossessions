@@ -43,7 +43,7 @@ public class CustomPossesionBase : BaseUnityPlugin
         //    "DisplayGreeting",
         //    true,
         //    "Whether or not to show the greeting text");
-
+        ConfigModule.BindConfigs(Config);
         //configPotionSentencesOverride = Config.Bind("Prompts.Potion.prompts",
         //                                    "PotionOverrides",
         //                                    new List<string> {
