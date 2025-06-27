@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <AssemblyName>AltCtrler.dev.plugins.CustomPossessions</AssemblyName>
+    <AssemblyName>AltCtrlersCustomPossessions</AssemblyName>
     <Product>Alt's Custom Possesions</Product>
     <Version>0.0.0.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -24,5 +24,14 @@
   
   <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\REPO\REPO_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

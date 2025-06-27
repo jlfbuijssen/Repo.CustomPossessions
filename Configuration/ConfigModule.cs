@@ -1,38 +1,42 @@
-﻿using AltCtrler.CustomPosessions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BepInEx;
 using BepInEx.Configuration;
-using BepInEx.Logging;
-using System.Collections.Generic;
 
-namespace AltCtrler.CustomPosessions;
-
-[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInProcess("REPO.exe")]
-public class CustomPossesionBase : BaseUnityPlugin
+namespace AltCtrler.CustomPosessions.Configuration
 {
-    internal static new ManualLogSource Logger;
-    private static ConfigModule _configModule = new ConfigModule();
-
-    private ConfigEntry<string> configGreeting;
-    private ConfigEntry<bool> configDisplayGreeting;
-    private ConfigEntry<List<string>> configPotionSentencesOverride;
-    private ConfigEntry<List<string>> configBetrayalOverride;
-    private ConfigEntry<List<string>> configTransitiveVerbsOverride;
-    private ConfigEntry<List<string>> configIntransitiveVerbsOverride;
-    private ConfigEntry<List<string>> configAdjectivesOverride;
-    private ConfigEntry<List<string>> configIntensifiersOverride;
-    private ConfigEntry<List<string>> configNounsOverride;
-    private ConfigEntry<List<string>> configAdverbsOverride;
-
-    
-
-    private void Awake()
+    internal class ConfigModule
     {
-        // Plugin startup logic
-        Logger = base.Logger;
-        Logger.LogInfo($"CustomPossesionBase {MyPluginInfo.PLUGIN_GUID} (version: {MyPluginInfo.PLUGIN_VERSION})is loaded!");
-        Logger.LogInfo(_configModule.GetCustomPossesionStringsPath());
-        Logger.LogInfo(_configModule.CanStore(typeof(List<string>)).ToString());
+        private static readonly string possesionStringLocation = Path.Combine(Paths.ConfigPath + "\\PossesionStrings.cfg");
+        public ConfigModule Instance;
+        public ConfigModule()
+        {
+            if (Instance == null)
+                Instance = this;
+        }
+
+        public string GetCustomPossesionStringsPath()
+        {
+            return possesionStringLocation;
+        }
+
+        public bool CanStore(Type type)
+        {
+            AddListedStringSupport();
+            return TomlTypeConverter.CanConvert(type);
+            //return "";
+        }
+
+        private bool AddListedStringSupport()
+        {
+            ListConverter listConverter = new ListConverter();
+            BepInEx.Configuration.TomlTypeConverter.AddConverter(typeof(List<string>), listConverter);
+            return true;
+        }
 
         //configGreeting = Config.Bind("General",       // The section under which the option is show
         //                             "GreetingText",  // The key value
@@ -136,7 +140,7 @@ public class CustomPossesionBase : BaseUnityPlugin
         //                                        "{playerName} makes my day {intensifier} awesome."
         //                                    },
         //                                    "The base game love potion prompts will be overwritten with the provided prompts");
-        
+
         //configBetrayalOverride = Config.Bind("Propts.Betrayal",
         //                                    "BetrayalOverrides",
         //                                    new List<string> { 
@@ -439,7 +443,7 @@ public class CustomPossesionBase : BaseUnityPlugin
         //                                        "chuckle"
         //},
         //                                    "Intransitive verbs used to generate love potion prompts");
-        
+
         //configAdjectivesOverride = Config.Bind("Prompts.Potion.Adjectives",
         //                                    "TransitiveVerbs",
         //                                    new List<string> {
@@ -503,10 +507,5 @@ public class CustomPossesionBase : BaseUnityPlugin
         //                                    "Adverbs used to generate love potions prompts");
 
 
-
-        // Test Code
-        // instead of just Logger.LogInfo("Hello World");
-        //if (configDisplayGreeting.Value)
-        //    Logger.LogInfo(configGreeting.Value);
     }
 }
