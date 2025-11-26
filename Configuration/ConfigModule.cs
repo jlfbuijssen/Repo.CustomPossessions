@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BepInEx;
 using BepInEx.Configuration;
 
@@ -14,7 +11,7 @@ namespace AltCtrler.CustomPosessions.Configuration
         private static readonly string possesionStringLocation = Path.Combine(Paths.ConfigPath + "\\PossesionStrings.cfg");
 
 
-        private static ConfigEntry<List<string>> configPotionSentencesOverride;
+        private static ConfigEntry<string> configPotionSentencesOverride;
 
         public ConfigModule Instance;
         public ConfigModule()
@@ -27,30 +24,6 @@ namespace AltCtrler.CustomPosessions.Configuration
         {
             return possesionStringLocation;
         }
-
-        public bool CanStore(Type type)
-        {
-            AddListedStringSupport();
-            return TomlTypeConverter.CanConvert(type);
-            //return "";
-        }
-
-        private bool AddListedStringSupport()
-        {
-            ListConverter listConverter = new ListConverter();
-            BepInEx.Configuration.TomlTypeConverter.AddConverter(typeof(List<string>), listConverter);
-            return true;
-        }
-
-        //configGreeting = Config.Bind("General",       // The section under which the option is show
-        //                             "GreetingText",  // The key value
-        //                             "Hello, world!", // The default value
-        //                             "A greeting text to show when the game is launched"); // Description of the option to show in the config file
-
-        //configDisplayGreeting = Config.Bind("General.Toggles",
-        //    "DisplayGreeting",
-        //    true,
-        //    "Whether or not to show the greeting text");
         public void initialize()
         {
         }
@@ -60,96 +33,95 @@ namespace AltCtrler.CustomPosessions.Configuration
         {
             configPotionSentencesOverride = config.Bind("Prompts.Potion.prompts",
                                             "PotionOverrides",
-                                            new List<string> {
-                                                "Can't even with how {adjective} {playerName} is.",
-                                                "{playerName} makes everything {intensifier} legit.",
-                                                "Why is {playerName} so {adjective}? So cute!",
-                                                "Every time I see {playerName}, I {intransitiveVerb}.",
-                                                "{playerName} is just {intensifier} {adjective}, you know?",
-                                                "Got me {adverb} thinking about {playerName} all day.",
-                                                "Just want to {transitiveVerb} {playerName}.",
-                                                "Oh my, {playerName} is {intensifier} {adjective}!",
-                                                "When {playerName} smiles, I {intransitiveVerb}.",
-                                                "{playerName}, you are so {adjective}!",
-                                                "Can we talk about how {adjective} {playerName} is?",
-                                                "{playerName} has such a {adjective} vibe.",
-                                                "Just saw {playerName} looking {adjective}, so sweet.",
-                                                "Wow, {playerName} is so {adjective}!",
-                                                "Every time {playerName} talks, I {intransitiveVerb}.",
-                                                "{playerName} and me = {intensifier} {adjective} vibes.",
-                                                "Is it just me or is {playerName} {intensifier} {adjective}?",
-                                                "Not gonna lie, {playerName} is {adverb} {adjective}.",
-                                                "{playerName} is always {adjective}, and I love it.",
-                                                "I can't help {intransitiveVerb} over {playerName}.",
-                                                "Guess who has a crush on {playerName}? Me!",
-                                                "{playerName} walking in makes my day {intensifier} {adjective}.",
-                                                "Hey {playerName}, keep being you!",
-                                                "With {playerName}, everything is {adjective}.",
-                                                "Just {adverb} dreaming about {playerName}.",
-                                                "{playerName} looks so {adjective} today.",
-                                                "Low-key, {playerName} is the most {adjective} person.",
-                                                "High-key crushing on {playerName}!",
-                                                "{playerName} has that {adjective} something.",
-                                                "For real, {playerName}'s vibe is {intensifier} {adjective}.",
-                                                "Can't help but {transitiveVerb} {playerName}; they're so {adjective}.",
-                                                "{playerName} is {adverb} my {noun}!",
-                                                "Life is more {adjective} with {playerName} around.",
-                                                "{playerName}'s laugh is {intensifier} {adjective}.",
-                                                "{playerName}, you {adverb} {transitiveVerb} my world.",
-                                                "Why is {playerName} so {adjective}?",
-                                                "Did you see {playerName} today? So {adjective}!",
-                                                "It's {adverb} {adjective} how much I {transitiveVerb} {playerName}.",
-                                                "Me, whenever I see {playerName}: So {adjective}!",
-                                                "{playerName} has me {adverb} {intransitiveVerb}.",
-                                                "Just saw {playerName}, and yep, still {adjective}.",
-                                                "{playerName} is my {intensifier} {adjective} crush.",
-                                                "Can confirm, {playerName} is {adjective}!",
-                                                "Everyday mood: {intransitiveVerb} about how {adjective} {playerName} is.",
-                                                "{playerName}, stop being so {adjective}; I can't handle it.",
-                                                "When {playerName} is {intensifier} {adjective}... *swoons*",
-                                                "Just {intransitiveVerb} about {playerName} being so {adjective}.",
-                                                "Yep, {playerName} keeps getting more {adjective}.",
-                                                "{playerName} makes me believe in {intensifier} {adjective} things.",
-                                                "Daily reminder: {playerName} is {intensifier} {adjective}.",
-                                                "To be honest, {playerName} rocks that {adjective} look {adverb}.",
-                                                "Seeing {playerName} today was {adverb} the highlight.",
-                                                "I can't stop {intransitiveVerb} when I think of {playerName}.",
-                                                "{playerName}, you make my heart {intransitiveVerb}.",
-                                                "Is it possible to {transitiveVerb} {playerName} more?",
-                                                "{playerName} is just too {adjective}!",
-                                                "Thinking about {playerName} makes me {intransitiveVerb}.",
-                                                "My day gets {adjective} when I see {playerName}.",
-                                                "{playerName} is my favorite {noun}.",
-                                                "I {transitiveVerb} {playerName} so much!",
-                                                "Just {adverb} wishing I could {transitiveVerb} {playerName}.",
-                                                "Whenever I see {playerName}, I {intransitiveVerb} inside.",
-                                                "{playerName} has the most {adjective} smile.",
-                                                "Can't wait to {transitiveVerb} {playerName} again.",
-                                                "If only {playerName} knew how {adjective} they are.",
-                                                "Feeling {adjective} thanks to {playerName}.",
-                                                "{playerName}, you're {intensifier} {adjective}!",
-                                                "I just want to {transitiveVerb} {playerName} all day.",
-                                                "{playerName}, you make me {intransitiveVerb}.",
-                                                "Life is {adjective} with {playerName}.",
-                                                "{playerName} is like the most {adjective} dream.",
-                                                "Can't stop smiling because of {playerName}.",
-                                                "I think I {transitiveVerb} {playerName}.",
-                                                "{playerName} makes my heart {intransitiveVerb}.",
-                                                "Oh, {playerName}, you're so {adjective}!",
-                                                "Just thinking about {playerName} makes me happy.",
-                                                "Wish I could {transitiveVerb} {playerName} right now.",
-                                                "{playerName} is simply {adjective}.",
-                                                "Feeling {adjective} whenever {playerName} is around.",
-                                                "{playerName}, you brighten my day!",
-                                                "I {transitiveVerb} {playerName} more than anything.",
-                                                "Just {adverb} thinking about {playerName}.",
-                                                "{playerName} is {intensifier} {adjective}!",
-                                                "Can't get enough of {playerName}'s {adjective} vibes.",
-                                                "{playerName} is {adverb} {adjective}.",
-                                                "Just {intransitiveVerb} about how {adjective} {playerName} is.",
-                                                "{playerName} makes my day {intensifier} awesome."
-                                            },
+                                            "Can't even with how {adjective} {playerName} is.",
                                             "The base game love potion prompts will be overwritten with the provided prompts");
+                                                //"{playerName} makes everything {intensifier} legit.",
+                                            //    "Why is {playerName} so {adjective}? So cute!",
+                                            //    "Every time I see {playerName}, I {intransitiveVerb}.",
+                                            //    "{playerName} is just {intensifier} {adjective}, you know?",
+                                            //    "Got me {adverb} thinking about {playerName} all day.",
+                                            //    "Just want to {transitiveVerb} {playerName}.",
+                                            //    "Oh my, {playerName} is {intensifier} {adjective}!",
+                                            //    "When {playerName} smiles, I {intransitiveVerb}.",
+                                            //    "{playerName}, you are so {adjective}!",
+                                            //    "Can we talk about how {adjective} {playerName} is?",
+                                            //    "{playerName} has such a {adjective} vibe.",
+                                            //    "Just saw {playerName} looking {adjective}, so sweet.",
+                                            //    "Wow, {playerName} is so {adjective}!",
+                                            //    "Every time {playerName} talks, I {intransitiveVerb}.",
+                                            //    "{playerName} and me = {intensifier} {adjective} vibes.",
+                                            //    "Is it just me or is {playerName} {intensifier} {adjective}?",
+                                            //    "Not gonna lie, {playerName} is {adverb} {adjective}.",
+                                            //    "{playerName} is always {adjective}, and I love it.",
+                                            //    "I can't help {intransitiveVerb} over {playerName}.",
+                                            //    "Guess who has a crush on {playerName}? Me!",
+                                            //    "{playerName} walking in makes my day {intensifier} {adjective}.",
+                                            //    "Hey {playerName}, keep being you!",
+                                            //    "With {playerName}, everything is {adjective}.",
+                                            //    "Just {adverb} dreaming about {playerName}.",
+                                            //    "{playerName} looks so {adjective} today.",
+                                            //    "Low-key, {playerName} is the most {adjective} person.",
+                                            //    "High-key crushing on {playerName}!",
+                                            //    "{playerName} has that {adjective} something.",
+                                            //    "For real, {playerName}'s vibe is {intensifier} {adjective}.",
+                                            //    "Can't help but {transitiveVerb} {playerName}; they're so {adjective}.",
+                                            //    "{playerName} is {adverb} my {noun}!",
+                                            //    "Life is more {adjective} with {playerName} around.",
+                                            //    "{playerName}'s laugh is {intensifier} {adjective}.",
+                                            //    "{playerName}, you {adverb} {transitiveVerb} my world.",
+                                            //    "Why is {playerName} so {adjective}?",
+                                            //    "Did you see {playerName} today? So {adjective}!",
+                                            //    "It's {adverb} {adjective} how much I {transitiveVerb} {playerName}.",
+                                            //    "Me, whenever I see {playerName}: So {adjective}!",
+                                            //    "{playerName} has me {adverb} {intransitiveVerb}.",
+                                            //    "Just saw {playerName}, and yep, still {adjective}.",
+                                            //    "{playerName} is my {intensifier} {adjective} crush.",
+                                            //    "Can confirm, {playerName} is {adjective}!",
+                                            //    "Everyday mood: {intransitiveVerb} about how {adjective} {playerName} is.",
+                                            //    "{playerName}, stop being so {adjective}; I can't handle it.",
+                                            //    "When {playerName} is {intensifier} {adjective}... *swoons*",
+                                            //    "Just {intransitiveVerb} about {playerName} being so {adjective}.",
+                                            //    "Yep, {playerName} keeps getting more {adjective}.",
+                                            //    "{playerName} makes me believe in {intensifier} {adjective} things.",
+                                            //    "Daily reminder: {playerName} is {intensifier} {adjective}.",
+                                            //    "To be honest, {playerName} rocks that {adjective} look {adverb}.",
+                                            //    "Seeing {playerName} today was {adverb} the highlight.",
+                                            //    "I can't stop {intransitiveVerb} when I think of {playerName}.",
+                                            //    "{playerName}, you make my heart {intransitiveVerb}.",
+                                            //    "Is it possible to {transitiveVerb} {playerName} more?",
+                                            //    "{playerName} is just too {adjective}!",
+                                            //    "Thinking about {playerName} makes me {intransitiveVerb}.",
+                                            //    "My day gets {adjective} when I see {playerName}.",
+                                            //    "{playerName} is my favorite {noun}.",
+                                            //    "I {transitiveVerb} {playerName} so much!",
+                                            //    "Just {adverb} wishing I could {transitiveVerb} {playerName}.",
+                                            //    "Whenever I see {playerName}, I {intransitiveVerb} inside.",
+                                            //    "{playerName} has the most {adjective} smile.",
+                                            //    "Can't wait to {transitiveVerb} {playerName} again.",
+                                            //    "If only {playerName} knew how {adjective} they are.",
+                                            //    "Feeling {adjective} thanks to {playerName}.",
+                                            //    "{playerName}, you're {intensifier} {adjective}!",
+                                            //    "I just want to {transitiveVerb} {playerName} all day.",
+                                            //    "{playerName}, you make me {intransitiveVerb}.",
+                                            //    "Life is {adjective} with {playerName}.",
+                                            //    "{playerName} is like the most {adjective} dream.",
+                                            //    "Can't stop smiling because of {playerName}.",
+                                            //    "I think I {transitiveVerb} {playerName}.",
+                                            //    "{playerName} makes my heart {intransitiveVerb}.",
+                                            //    "Oh, {playerName}, you're so {adjective}!",
+                                            //    "Just thinking about {playerName} makes me happy.",
+                                            //    "Wish I could {transitiveVerb} {playerName} right now.",
+                                            //    "{playerName} is simply {adjective}.",
+                                            //    "Feeling {adjective} whenever {playerName} is around.",
+                                            //    "{playerName}, you brighten my day!",
+                                            //    "I {transitiveVerb} {playerName} more than anything.",
+                                            //    "Just {adverb} thinking about {playerName}.",
+                                            //    "{playerName} is {intensifier} {adjective}!",
+                                            //    "Can't get enough of {playerName}'s {adjective} vibes.",
+                                            //    "{playerName} is {adverb} {adjective}.",
+                                            //    "Just {intransitiveVerb} about how {adjective} {playerName} is.",
+                                            //    "{playerName} makes my day {intensifier} awesome."
+                                            //},
         }
     }
 
